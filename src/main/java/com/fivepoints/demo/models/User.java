@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.List;
 
 @Entity
 @Table(name="users")
@@ -24,7 +25,8 @@ public class User implements Serializable {
     //@JsonProperty("password")
     private String password;
     //constructeurs
-
+    @OneToMany
+    private  List<Publication> publications;
 
 
     public User() {

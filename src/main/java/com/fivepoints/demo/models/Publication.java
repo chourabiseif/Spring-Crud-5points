@@ -12,6 +12,8 @@ public class Publication implements Serializable {
     private int id;
     private String title;
     private String description;
+    @ManyToOne
+    private User user;
 
     // constructeurs
 
