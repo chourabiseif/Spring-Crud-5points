@@ -26,6 +26,12 @@ public class Publication implements Serializable {
         this.title = title;
         this.description = description;
     }
+
+    public Publication(String title, String description, User user) {
+        this.title = title;
+        this.description = description;
+        this.user = user;
+    }
     // Getters and Setters
 
 
@@ -51,5 +57,13 @@ public class Publication implements Serializable {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }

@@ -24,9 +24,13 @@ public class User implements Serializable {
     private String email;
     //@JsonProperty("password")
     private String password;
-    //constructeurs
     @OneToMany
     private  List<Publication> publications;
+    @OneToOne
+    private About about;
+
+    //constructeurs
+
 
 
     public User() {
@@ -46,7 +50,15 @@ public class User implements Serializable {
         this.password = password;
     }
 
-    //getters
+    public User(String firstName, String lastName, String email, String password, List<Publication> publications) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.password = password;
+        this.publications = publications;
+    }
+
+    //getters and setters
     public Long getId() {
         return id;
     }
@@ -66,7 +78,11 @@ public class User implements Serializable {
     public String getPassword() {
         return password;
     }
-    //setters
+
+    public List<Publication> getPublications() {
+        return publications;
+    }
+
 
     public void setId(Long id) {
         this.id = id;
@@ -86,5 +102,9 @@ public class User implements Serializable {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public void setPublications(List<Publication> publications) {
+        this.publications = publications;
     }
 }
