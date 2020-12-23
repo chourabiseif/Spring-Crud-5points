@@ -15,7 +15,7 @@ public class AboutControllers {
 
     // create new  publication
     @RequestMapping(value = "/abouts/", method = RequestMethod.POST)
-    public String createPublication(@RequestBody About about){
+    public String createAbout(@RequestBody About about){
         return this.aboutService.addAbout(about);
     }
     // get all the abouts

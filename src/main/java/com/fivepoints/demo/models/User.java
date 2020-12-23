@@ -24,10 +24,15 @@ public class User implements Serializable {
     private String email;
     //@JsonProperty("password")
     private String password;
+
+    //private byte profilePicture;
+
     @OneToMany
     private  List<Publication> publications;
     @OneToOne
     private About about;
+    @OneToOne
+    private ProfilePicture profilePicture;
 
     //constructeurs
 
