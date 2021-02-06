@@ -46,5 +46,13 @@ public class UserService {
         this.userRepository.deleteById(id);
 
     }
+    // search user with email
+    public User findByEMail(String email){
+        return this.userRepository.findByEmail(email);
+    }
+    // search user with last and first name
+    public List<User> getUserByName(String firstname , String lastname){
+        return  this.userRepository.searchUser(firstname,lastname);
+    }
 
 }

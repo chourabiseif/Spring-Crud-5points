@@ -3,6 +3,7 @@ package com.fivepoints.demo.controllers;
 import com.fivepoints.demo.models.About;
 import com.fivepoints.demo.models.ProfilePicture;
 import com.fivepoints.demo.models.User;
+import com.fivepoints.demo.playLoad.responses.Response;
 import com.fivepoints.demo.services.ProfilePictureService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -16,12 +17,12 @@ public class ProfilePictureControllers {
     ProfilePictureService profilePictureService;
     //adding a profile picture
     @RequestMapping(value = "/profilePictures/", method = RequestMethod.POST)
-    public String createProfilePicture(@RequestParam("file") MultipartFile[] profilePictures){
+    public Response createProfilePicture(@RequestParam("file") MultipartFile[] profilePictures){
         for (MultipartFile profilePicture : profilePictures){
         this.profilePictureService.SaveProfilePicture(profilePicture);
         }
 
-        return "photo ajouté";
+        return new Response("photo ajouté");
     }
     // get all pictures
     @RequestMapping(value = "/profilePictures/", method = RequestMethod.GET)

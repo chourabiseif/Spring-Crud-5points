@@ -17,6 +17,7 @@ public class ProfilePictureService {
     public ProfilePicture SaveProfilePicture(MultipartFile file) {
         String fileName = file.getOriginalFilename();
         try {
+
             ProfilePicture profilePicture = new ProfilePicture(fileName, file.getContentType(), file.getBytes());
             return this.profilePictureRepository.save(profilePicture);
         }

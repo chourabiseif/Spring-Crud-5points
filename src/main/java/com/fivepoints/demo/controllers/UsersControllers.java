@@ -42,4 +42,15 @@ public class UsersControllers {
     public void deleteUser(@PathVariable(value="id") Long id){
          this.userService.effacerUser(id) ;
     }
+
+    // finding user with email
+    @RequestMapping(value="/users/email/{email}" , method = RequestMethod.GET)
+    public  User getUserByEmail(@PathVariable(value="email") String email){
+        return this.userService.findByEMail(email);
+    }
+    // search user with first and last name
+    @RequestMapping(value="/users/name/{firstname}/{lastname}" , method = RequestMethod.GET)
+    public  List<User> getUserByName(@PathVariable(value="firstname") String firstname , @PathVariable(value="lastname") String lastname){
+        return this.userService.getUserByName(firstname,lastname);
+    }
 }
