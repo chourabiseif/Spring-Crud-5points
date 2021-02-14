@@ -13,6 +13,7 @@ import java.util.List;
 public class ProfilePictureService {
     @Autowired
     private ProfilePictureRepository profilePictureRepository;
+
     // adding a profile Picture
     public ProfilePicture SaveProfilePicture(MultipartFile file) {
         String fileName = file.getOriginalFilename();
@@ -26,14 +27,20 @@ public class ProfilePictureService {
         }
         return null;
     }
-    // Get profile picture by id
-    public ProfilePicture getProfilePicture(int id){
-        return this.profilePictureRepository.findById(id).get();
-    }
+
     //Get all profile pictures
     public List<ProfilePicture> getAllProfilePictures(){
         return this.profilePictureRepository.findAll();
     }
+
+    // Get profile picture by id
+    public ProfilePicture getProfilePicture(int id){
+        return this.profilePictureRepository.findById(id).get();
+    }
+
+    // Modifier profile picture
+
+
 
 
 

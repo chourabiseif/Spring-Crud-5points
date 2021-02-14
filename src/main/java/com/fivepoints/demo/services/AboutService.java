@@ -14,14 +14,12 @@ public class AboutService {
     private AboutRepository aboutRepository;
 
 
-
-
     // adding a publication
     public String addAbout(About about){
         this.aboutRepository.save(about);
         return "about added";
-
     }
+
     //get all abouts
     public List<About> getAbouts(){
 
@@ -44,11 +42,12 @@ public class AboutService {
 
 
         this.aboutRepository.save(aboutfound);
-        return "modified";
+        return "about modified";
     }
     // deleting about
-    public void deleteAbout(int id){
+    public String deleteAbout(int id){
         this.aboutRepository.deleteById(id);
+        return "about deleted";
 
     }
 }

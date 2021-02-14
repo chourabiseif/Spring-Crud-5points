@@ -17,7 +17,6 @@ public class UserService {
     public String addUSer(User user){
         this.userRepository.save(user);
         return "user added";
-
     }
     //get all users
     public List<User> getUSers(){
@@ -26,6 +25,7 @@ public class UserService {
     }
     //get one user by his id
     public User getUSer(Long id){
+
         return this.userRepository.findById(id).get();
     }
 
@@ -39,13 +39,13 @@ public class UserService {
         userfound.setPassword(user.getPassword());
 
         this.userRepository.save(userfound);
-        return "modifié";
+        return "user modified";
 }
     // Suppression user
-    public void effacerUser(Long id){
+    public String effacerUser(Long id){
         this.userRepository.deleteById(id);
-
-    }
+        return "user deleted";
+     }
     // search user with email
     public User findByEMail(String email){
         return this.userRepository.findByEmail(email);

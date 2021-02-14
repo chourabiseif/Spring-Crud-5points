@@ -17,6 +17,7 @@ public class PublicationService {
         return "publication added";
 
     }
+
     //get all publications
     public List<Publication> getPublications(){
 
@@ -36,11 +37,12 @@ public class PublicationService {
 
 
         this.publicationRepository.save(publicationfound);
-        return "modified";
+        return "publication modified";
     }
     // deleting publication
-    public void deletepublication(int id){
+    public String deletepublication(int id){
         this.publicationRepository.deleteById(id);
+        return  "publication deleted";
 
     }
 }

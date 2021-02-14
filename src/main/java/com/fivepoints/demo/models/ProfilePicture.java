@@ -2,8 +2,11 @@ package com.fivepoints.demo.models;
 
 import ch.qos.logback.classic.db.names.TableName;
 import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
+import java.util.Date;
 
 @Entity
 
@@ -26,6 +29,20 @@ public class ProfilePicture {
     private byte[] data;
     @OneToOne
     private User user;
+
+    // created at and updated at
+    @Setter(value = AccessLevel.NONE)
+    @Basic(optional = false)
+    @CreationTimestamp
+    @Column(name = "created_at")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date createdAt = new Date();
+
+    @Setter(value = AccessLevel.NONE)
+    @UpdateTimestamp
+    @Column(name = "updated_at")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date updatedAt = new Date();
 
     // constructors code replaced with lombok annotations
 
