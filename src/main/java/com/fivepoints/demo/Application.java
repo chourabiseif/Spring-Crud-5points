@@ -15,9 +15,11 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.event.EventListener;
 import org.springframework.scheduling.annotation.EnableScheduling;
+import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 @SpringBootApplication
 @EnableScheduling
+@EnableSwagger2
 public class Application implements ApplicationRunner {
     @Autowired
     SendEmailService sendEmailService;
@@ -33,7 +35,7 @@ public class Application implements ApplicationRunner {
 
     @Override
     public void run(ApplicationArguments args) throws Exception {
-
+/*
         // Clean up database tables
         this.aboutRepository.deleteAllInBatch();
         this.userRepository.deleteAllInBatch();
@@ -47,11 +49,8 @@ public class Application implements ApplicationRunner {
         about1.setUser(user1);
         user1.setAbout(about1);
         this.userRepository.save(user1);
-        this.aboutRepository.save(about1);
-
-
-
-        }
+        this.aboutRepository.save(about1);*/
+ }
 
 
 

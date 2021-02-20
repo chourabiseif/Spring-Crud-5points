@@ -10,9 +10,6 @@ import lombok.NoArgsConstructor;
 public class ResponseMessage {
     private String message;
 // constructors code replaced with lombok annotations
-
-
-
-    //getters and setters code replaced with lombok annotations
+ //getters and setters code replaced with lombok annotations
 
 }

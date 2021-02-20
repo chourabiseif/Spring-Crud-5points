@@ -22,7 +22,7 @@ public class UsersControllers {
     public ResponseEntity<ResponseMessage> createUser(@RequestBody User user){
 
         String message =  this.userService.addUSer(user);
-        return new ResponseEntity<>(new ResponseMessage(message) , HttpStatus.OK);
+        return new ResponseEntity<>(new ResponseMessage(message) , HttpStatus.CREATED);
     }
 
     // récuperer tous les users
@@ -70,5 +70,23 @@ public class UsersControllers {
         List<User> userList = this.userService.getUserByName(firstname,lastname);
         return new  ResponseEntity<>(userList , HttpStatus.OK);
 
+    }
+    // affect about to user
+    @RequestMapping(value="/users/{userId}/about/{aboutId}" , method = RequestMethod.POST)
+    public ResponseEntity<ResponseMessage> affectAboutToUser(@PathVariable(value ="userId" ) Long userId,@PathVariable(value="aboutId") int aboutId){
+       String  message = this.userService.affectAboutToUser(userId ,aboutId);
+        return new  ResponseEntity<>(new ResponseMessage(message), HttpStatus.OK);
+    }
+    // affect publication to user
+    @RequestMapping(value="/users/{userId}/publication/{publicationId}" , method = RequestMethod.POST)
+    public ResponseEntity<ResponseMessage> affectPublicationToUser(@PathVariable(value ="userId" ) Long userId,@PathVariable(value="publicationId") int publicationId){
+       String message = this.userService.affectPublicationToUser(userId,publicationId);
+        return new  ResponseEntity<>(new ResponseMessage(message), HttpStatus.OK);
+    }
+    // affect role to user
+    @RequestMapping(value="/users/{userId}/role/{roleId}" , method = RequestMethod.POST)
+    public ResponseEntity<ResponseMessage> affectRoleToUser(@PathVariable(value ="userId" ) Long userId,@PathVariable(value="roleId") int roleId){
+        String message = this.userService.affectRoleToUser(userId,roleId);
+        return new  ResponseEntity<>(new ResponseMessage(message), HttpStatus.OK);
     }
 }

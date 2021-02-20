@@ -30,8 +30,8 @@ public class About  implements Serializable {
     @NonNull
     private String zipCode;
 
-    @OneToOne
-    private User user;
+//    @OneToOne
+//    private User user;
 
     // created at and updated at
     @Setter(value = AccessLevel.NONE)

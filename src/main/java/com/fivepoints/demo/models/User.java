@@ -1,5 +1,6 @@
 package com.fivepoints.demo.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
@@ -8,7 +9,9 @@ import org.hibernate.annotations.UpdateTimestamp;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Data
@@ -37,14 +40,25 @@ public class User implements Serializable {
     //@JsonProperty("password")
     private String password;
 
-    @OneToMany
+    @JsonIgnore
+    @OneToMany(mappedBy="user", fetch = FetchType.LAZY , cascade = CascadeType.ALL)
     private  List<Publication> publications;
+
     @OneToOne
     private About about;
     @OneToOne
     private ProfilePicture profilePicture;
-    /*@ManyToMany
-    private Role role;*/
+
+    @ManyToMany(fetch = FetchType.LAZY,
+            cascade = {
+                    CascadeType.PERSIST,
+                    CascadeType.MERGE
+            })
+    @JoinTable(name = "roles_users",
+            joinColumns = { @JoinColumn(name = "roles_id") },
+            inverseJoinColumns = { @JoinColumn(name = "users_id") })
+    private Set<Role> roles = new HashSet<>();
+
 
     // created at and updated at
 

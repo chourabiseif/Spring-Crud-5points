@@ -1,6 +1,8 @@
 package com.fivepoints.demo.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
+
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -24,7 +26,9 @@ public class Publication implements Serializable {
     @NonNull
     private String description;
 
-    @ManyToOne
+    @JsonIgnore
+    @ManyToOne()
+    @JoinColumn(name="user_id", nullable= false)
     private User user;
 
     // created at and updated at
