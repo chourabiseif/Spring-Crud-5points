@@ -1,7 +1,6 @@
 package com.fivepoints.demo.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -18,45 +17,54 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 @RequiredArgsConstructor
+@EqualsAndHashCode(exclude = {"createdAt", "updatedAt","publications","about","profilePicture","roles"})
 @Table(name="users")
 public class User implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    //@JsonProperty("id")
+    @Setter(value = AccessLevel.NONE)
     private Long id;
-    //nom dans base donnée pas le meme de l'attribut
-    //@Column(name="First_name")
-    //@JsonProperty("firstName")
+
     @NonNull
+    @Column(name = "firstName")
     private String firstName;
-    //@JsonProperty("lastName")
+
     @NonNull
+    @Column(name = "lastName")
     private String lastName;
-    //@JsonProperty("email")
+
     @NonNull
+    @Column(name = "email")
     private String email;
+
     @NonNull
-    //@JsonProperty("password")
+    @Column(name = "password")
     private String password;
 
+    //one to one relations
     @JsonIgnore
-    @OneToMany(mappedBy="user", fetch = FetchType.LAZY , cascade = CascadeType.ALL)
-    private  List<Publication> publications;
-
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "about_id", referencedColumnName = "id")
     private About about;
-    @OneToOne
+
+    @JsonIgnore
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "profilePicture_id", referencedColumnName = "id")
     private ProfilePicture profilePicture;
 
-    @ManyToMany(fetch = FetchType.LAZY,
-            cascade = {
-                    CascadeType.PERSIST,
-                    CascadeType.MERGE
-            })
+    // OneToMany Relations
+    @JsonIgnore
+    @OneToMany(mappedBy="user")
+    private  List<Publication> publications;
+
+
+
+    //Many to many relation
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "roles_users",
-            joinColumns = { @JoinColumn(name = "roles_id") },
-            inverseJoinColumns = { @JoinColumn(name = "users_id") })
+            joinColumns = { @JoinColumn(name = "user_id") },
+            inverseJoinColumns = { @JoinColumn(name = "role_id") })
     private Set<Role> roles = new HashSet<>();
 
 

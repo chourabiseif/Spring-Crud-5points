@@ -1,5 +1,6 @@
 package com.fivepoints.demo.controllers;
 
+import com.fivepoints.demo.exceptions.ResourceNotFoundException;
 import com.fivepoints.demo.models.ProfilePicture;
 import com.fivepoints.demo.playLoad.responses.ResponseMessage;
 import com.fivepoints.demo.services.ProfilePictureService;
@@ -23,7 +24,7 @@ public class ProfilePictureControllers {
         this.profilePictureService.SaveProfilePicture(profilePicture);
         }
 
-        return new ResponseEntity<>(new ResponseMessage("photo ajouté") , HttpStatus.OK);
+        return new ResponseEntity<>(new ResponseMessage("photo ajouté") , HttpStatus.CREATED);
     }
     // get all pictures
     @RequestMapping(value = "/profilePictures/", method = RequestMethod.GET)
@@ -34,7 +35,7 @@ public class ProfilePictureControllers {
     }
     // get by id
     @RequestMapping(value = "/profilePictures/{id}", method = RequestMethod.GET)
-    public ResponseEntity<ProfilePicture> getProfilePicureByID(@PathVariable(value="id") int id){
+    public ResponseEntity<ProfilePicture> getProfilePicureByID(@PathVariable(value="id") int id) throws ResourceNotFoundException {
         ProfilePicture profilePicture = this.profilePictureService.getProfilePicture(id) ;
         return  new ResponseEntity<>(profilePicture , HttpStatus.OK);
     }

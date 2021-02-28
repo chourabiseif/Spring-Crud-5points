@@ -1,11 +1,12 @@
 package com.fivepoints.demo.models;
 
-import ch.qos.logback.classic.db.names.TableName;
+
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Date;
 
 @Entity
@@ -15,19 +16,25 @@ import java.util.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 @RequiredArgsConstructor
-
-public class ProfilePicture {
+@EqualsAndHashCode(exclude = {"createdAt", "updatedAt", "user"})
+public class ProfilePicture implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Setter(value = AccessLevel.NONE)
     private int id;
+
     @NonNull
     private String pictureName;
+
     @NonNull
     private String pictureType;
+
     @NonNull
     @Lob
     private byte[] data;
-    @OneToOne
+
+    //one to one relation
+    @OneToOne(mappedBy ="profilePicture")
     private User user;
 
     // created at and updated at

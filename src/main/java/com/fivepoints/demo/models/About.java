@@ -15,23 +15,32 @@ import java.util.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 @RequiredArgsConstructor
+@EqualsAndHashCode(exclude = {"createdAt", "updatedAt", "user"})
 public class About  implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Setter(value = AccessLevel.NONE)
     private int id;
+
     @NonNull
-    private String birthdate;
+    @Temporal(TemporalType.DATE)
+    private Date birthdate;
+
     @NonNull
     private String country;
+
     @NonNull
     private String city;
+
     @NonNull
     private String phoneNumber;
+
     @NonNull
     private String zipCode;
 
-//    @OneToOne
-//    private User user;
+    // one to one relation
+    @OneToOne(mappedBy="about")
+    private User user;
 
     // created at and updated at
     @Setter(value = AccessLevel.NONE)

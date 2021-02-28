@@ -1,5 +1,6 @@
 package com.fivepoints.demo.controllers;
 
+import com.fivepoints.demo.exceptions.ResourceNotFoundException;
 import com.fivepoints.demo.models.About;
 import com.fivepoints.demo.models.Publication;
 import com.fivepoints.demo.playLoad.responses.ResponseMessage;
@@ -20,7 +21,7 @@ public class AboutControllers {
     @RequestMapping(value = "/abouts/", method = RequestMethod.POST)
     public ResponseEntity<ResponseMessage> createAbout(@RequestBody About about){
        String message =  this.aboutService.addAbout(about);
-       return  new ResponseEntity<>(new ResponseMessage(message) , HttpStatus.OK);
+       return  new ResponseEntity<>(new ResponseMessage(message) , HttpStatus.CREATED);
     }
 
     // get all the abouts
@@ -33,20 +34,20 @@ public class AboutControllers {
 
     // get about by its id
     @RequestMapping(value = "/abouts/{id}", method = RequestMethod.GET)
-    public ResponseEntity<About> getAboutByID(@PathVariable(value="id") int id){
+    public ResponseEntity<About> getAboutByID(@PathVariable(value="id") int id) throws ResourceNotFoundException {
 
         About about = this.aboutService.getAbout(id) ;
         return new  ResponseEntity<>(about , HttpStatus.OK);
     }
     // edit about
     @RequestMapping(value = "/abouts/{id}", method = RequestMethod.PUT)
-    public ResponseEntity<ResponseMessage> updateAbout( @PathVariable(value = "id") int id, @RequestBody About about){
+    public ResponseEntity<ResponseMessage> updateAbout( @PathVariable(value = "id") int id, @RequestBody About about) throws ResourceNotFoundException {
         String message =  this.aboutService.modifAbout(id, about) ;
         return new ResponseEntity<>(new ResponseMessage(message) , HttpStatus.OK);
     }
     // delete publication
     @RequestMapping(value = "/abouts/{id}", method = RequestMethod.DELETE)
-    public ResponseEntity<ResponseMessage> deleteAbout(@PathVariable(value="id") int id){
+    public ResponseEntity<ResponseMessage> deleteAbout(@PathVariable(value="id") int id) throws ResourceNotFoundException {
        String message = this.aboutService.deleteAbout(id);
        return  new ResponseEntity<>(new ResponseMessage(message) , HttpStatus.OK);
     }

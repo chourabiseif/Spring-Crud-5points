@@ -16,20 +16,31 @@ import java.util.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 @RequiredArgsConstructor
+@EqualsAndHashCode(exclude = {"createdAt", "updatedAt", "user"})
 @Table(name="publications")
 public class Publication implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Setter(value = AccessLevel.NONE)
     private int id;
+
     @NonNull
     private String title;
+
     @NonNull
+    @Lob
     private String description;
 
-    @JsonIgnore
-    @ManyToOne()
-    @JoinColumn(name="user_id", nullable= false)
+    @NonNull
+    @Column(name = "published")
+    private boolean published;
+
+    // OneToMany Relations
+    @ManyToOne
+    @JoinColumn(name="user_id", nullable=true)
     private User user;
+
+
 
     // created at and updated at
     @Setter(value = AccessLevel.NONE)

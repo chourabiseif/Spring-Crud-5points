@@ -1,5 +1,6 @@
 package com.fivepoints.demo.controllers;
 
+import com.fivepoints.demo.exceptions.ResourceNotFoundException;
 import com.fivepoints.demo.models.User;
 import com.fivepoints.demo.playLoad.responses.ResponseMessage;
 import com.fivepoints.demo.services.UserService;
@@ -18,7 +19,7 @@ public class UsersControllers {
     UserService userService;
 
     // creer nouveau user
-    @RequestMapping(value = "/users/", method = RequestMethod.POST)
+    @RequestMapping(value ="/users/", method = RequestMethod.POST)
     public ResponseEntity<ResponseMessage> createUser(@RequestBody User user){
 
         String message =  this.userService.addUSer(user);
@@ -36,7 +37,7 @@ public class UsersControllers {
 
     // récupérer un user
     @RequestMapping(value = "/users/{id}", method = RequestMethod.GET)
-    public ResponseEntity<User> getUserByID(@PathVariable(value="id") Long id){
+    public ResponseEntity<User> getUserByID(@PathVariable(value="id") Long id) throws ResourceNotFoundException {
 
         User user =  this.userService.getUSer(id) ;
         return new ResponseEntity<>(user , HttpStatus.OK);
@@ -44,7 +45,7 @@ public class UsersControllers {
 
     // updating a user
     @RequestMapping(value = "/users/{id}", method = RequestMethod.PUT)
-    public ResponseEntity<ResponseMessage> updateUser( @PathVariable(value = "id") Long id, @RequestBody User user){
+    public ResponseEntity<ResponseMessage> updateUser( @PathVariable(value = "id") Long id, @RequestBody User user) throws ResourceNotFoundException {
         String message =  this.userService.modifUser(id, user) ;
         return new ResponseEntity<>(new ResponseMessage(message) , HttpStatus.OK);
 
@@ -52,18 +53,20 @@ public class UsersControllers {
 
     // deleting a user
     @RequestMapping(value = "/users/{id}", method = RequestMethod.DELETE)
-    public ResponseEntity<ResponseMessage> deleteUser(@PathVariable(value="id") Long id){
+    public ResponseEntity<ResponseMessage> deleteUser(@PathVariable(value="id") Long id) throws ResourceNotFoundException {
 
        String message =  this.userService.effacerUser(id) ;
         return new ResponseEntity<>(new ResponseMessage(message) , HttpStatus.OK);
     }
 
     // finding user with email
+
     @RequestMapping(value="/users/email/{email}" , method = RequestMethod.GET)
     public  ResponseEntity<User> getUserByEmail(@PathVariable(value="email") String email){
         User user =  this.userService.findByEMail(email);
         return new ResponseEntity<>(user , HttpStatus.OK);
     }
+
     // search user with first and last name
     @RequestMapping(value="/users/name/{firstname}/{lastname}" , method = RequestMethod.GET)
     public ResponseEntity<List<User>>  getUserByName(@PathVariable(value="firstname") String firstname , @PathVariable(value="lastname") String lastname){
@@ -71,21 +74,22 @@ public class UsersControllers {
         return new  ResponseEntity<>(userList , HttpStatus.OK);
 
     }
-    // affect about to user
+    // affect about to user //one to one relation
     @RequestMapping(value="/users/{userId}/about/{aboutId}" , method = RequestMethod.POST)
-    public ResponseEntity<ResponseMessage> affectAboutToUser(@PathVariable(value ="userId" ) Long userId,@PathVariable(value="aboutId") int aboutId){
+    public ResponseEntity<ResponseMessage> affectAboutToUser(@PathVariable(value ="userId" ) Long userId,@PathVariable(value="aboutId") int aboutId) throws ResourceNotFoundException {
        String  message = this.userService.affectAboutToUser(userId ,aboutId);
         return new  ResponseEntity<>(new ResponseMessage(message), HttpStatus.OK);
     }
-    // affect publication to user
+    // affect publication to user // one to many relation
     @RequestMapping(value="/users/{userId}/publication/{publicationId}" , method = RequestMethod.POST)
-    public ResponseEntity<ResponseMessage> affectPublicationToUser(@PathVariable(value ="userId" ) Long userId,@PathVariable(value="publicationId") int publicationId){
+    public ResponseEntity<ResponseMessage> affectPublicationToUser(@PathVariable(value ="userId" ) Long userId,@PathVariable(value="publicationId") int publicationId) throws ResourceNotFoundException {
        String message = this.userService.affectPublicationToUser(userId,publicationId);
         return new  ResponseEntity<>(new ResponseMessage(message), HttpStatus.OK);
     }
-    // affect role to user
+
+    // affect role to user //many to many relation
     @RequestMapping(value="/users/{userId}/role/{roleId}" , method = RequestMethod.POST)
-    public ResponseEntity<ResponseMessage> affectRoleToUser(@PathVariable(value ="userId" ) Long userId,@PathVariable(value="roleId") int roleId){
+    public ResponseEntity<ResponseMessage> affectRoleToUser(@PathVariable(value ="userId" ) Long userId,@PathVariable(value="roleId") int roleId) throws ResourceNotFoundException {
         String message = this.userService.affectRoleToUser(userId,roleId);
         return new  ResponseEntity<>(new ResponseMessage(message), HttpStatus.OK);
     }

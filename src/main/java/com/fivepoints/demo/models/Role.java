@@ -1,28 +1,37 @@
 package com.fivepoints.demo.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Date;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
-@Entity
 @Data
+@Entity
+@Table(name = "roles")
 @NoArgsConstructor
-@AllArgsConstructor
 @RequiredArgsConstructor
-@Table(name="roles")
-public class Role {
+@EqualsAndHashCode(exclude = {"createdAt", "updatedAt", "users"})
+public class Role implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Setter(value = AccessLevel.NONE)
     private int id;
-    @NonNull
-    private String name;
 
+    @NonNull
+    @Enumerated(EnumType.STRING)
+    @Column(length = 15)
+    private ERole name;
+
+
+
+    // ManyToMany Relations
+    @JsonIgnore
     @ManyToMany(fetch = FetchType.LAZY,
             cascade = {
                     CascadeType.PERSIST,
@@ -30,6 +39,9 @@ public class Role {
             },
             mappedBy = "roles")
     private Set<User> users = new HashSet<>();
+
+
+
 
     // created at and updated at
     @Setter(value = AccessLevel.NONE)

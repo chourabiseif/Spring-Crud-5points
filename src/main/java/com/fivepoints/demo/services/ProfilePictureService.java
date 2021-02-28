@@ -1,5 +1,6 @@
 package com.fivepoints.demo.services;
 
+import com.fivepoints.demo.exceptions.ResourceNotFoundException;
 import com.fivepoints.demo.models.ProfilePicture;
 import com.fivepoints.demo.repositories.ProfilePictureRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +9,7 @@ import org.springframework.web.multipart.MultipartException;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ProfilePictureService {
@@ -30,12 +32,14 @@ public class ProfilePictureService {
 
     //Get all profile pictures
     public List<ProfilePicture> getAllProfilePictures(){
+
         return this.profilePictureRepository.findAll();
     }
 
     // Get profile picture by id
-    public ProfilePicture getProfilePicture(int id){
-        return this.profilePictureRepository.findById(id).get();
+    public ProfilePicture getProfilePicture(int id) throws ResourceNotFoundException {
+        Optional<ProfilePicture> profilePicture = this.profilePictureRepository.findById(id);
+        return profilePicture.orElseThrow(()->new ResourceNotFoundException("ProfilePicture Not Found"));
     }
 
     // Modifier profile picture

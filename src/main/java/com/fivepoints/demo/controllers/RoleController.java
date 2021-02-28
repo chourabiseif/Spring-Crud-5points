@@ -1,5 +1,6 @@
 package com.fivepoints.demo.controllers;
 
+import com.fivepoints.demo.exceptions.ResourceNotFoundException;
 import com.fivepoints.demo.models.About;
 import com.fivepoints.demo.models.Role;
 import com.fivepoints.demo.playLoad.responses.ResponseMessage;
@@ -20,7 +21,7 @@ public class RoleController {
     @RequestMapping(value = "/roles/", method = RequestMethod.POST)
     public ResponseEntity<ResponseMessage> addRole(@RequestBody Role role){
         String message =  this.roleService.addRole(role);
-        return  new ResponseEntity<>(new ResponseMessage(message) , HttpStatus.OK);
+        return  new ResponseEntity<>(new ResponseMessage(message) , HttpStatus.CREATED);
     }
 
     // getting all roles
@@ -33,7 +34,7 @@ public class RoleController {
 
     //getting one role by id
     @RequestMapping(value = "/roles/{id}", method = RequestMethod.GET)
-    public ResponseEntity<Role> getRoleByID(@PathVariable(value="id") int id){
+    public ResponseEntity<Role> getRoleByID(@PathVariable(value="id") int id) throws ResourceNotFoundException {
 
         Role role = this.roleService.getRoleByID(id);
         return new  ResponseEntity<>(role , HttpStatus.OK);
@@ -41,14 +42,14 @@ public class RoleController {
 
     // modifying role
     @RequestMapping(value = "/roles/{id}", method = RequestMethod.PUT)
-    public ResponseEntity<ResponseMessage> modifRole( @PathVariable(value = "id") int id, @RequestBody Role role){
+    public ResponseEntity<ResponseMessage> modifRole( @PathVariable(value = "id") int id, @RequestBody Role role) throws ResourceNotFoundException {
         String message =  this.roleService.modifRole(id, role) ;
         return new ResponseEntity<>(new ResponseMessage(message) , HttpStatus.OK);
     }
 
     // deleting a role
     @RequestMapping(value = "/roles/{id}", method = RequestMethod.DELETE)
-    public ResponseEntity<ResponseMessage> deleteRole(@PathVariable(value="id") int id){
+    public ResponseEntity<ResponseMessage> deleteRole(@PathVariable(value="id") int id) throws ResourceNotFoundException {
         String message = this.roleService.deleteRole(id);
         return  new ResponseEntity<>(new ResponseMessage(message) , HttpStatus.OK);
     }

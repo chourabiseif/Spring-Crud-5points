@@ -12,6 +12,9 @@ public interface UserRepository extends JpaRepository<User, Long> {
     // SQL query without write query
     public User findByEmail(String email);
 
+    // return True if email already exist
+    boolean existsByEmail(String email);
+
     // SQL query with write query
     @Query(value="SELECT * from users where first_name like %?1% and last_name like %?2%", nativeQuery = true)
     public List<User> searchUser(String firstName, String lastName);
